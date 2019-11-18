@@ -1,0 +1,83 @@
+//EX1.1
+SELECT CustomerID, CompanyName, Address, City, Region, PostalCode, Country 
+FROM Customers 
+WHERE City = 'Paris' OR City = 'London'; 
+
+//EX1.2
+SELECT * FROM Products 
+WHERE QuantityPerUnit LIKE '%bottle%';
+
+//EX1.3
+SELECT p.ProductID, p.ProductName, p.SupplierID, p.CategoryID, 
+p.QuantityPerUnit, p.UnitPrice, p.UnitsInStock, p.UnitsOnOrder, 
+p.ReorderLevel, p.Discontinued, s.CompanyName AS 'Supplier Name', s.Country
+ 
+FROM Products p 
+INNER JOIN Suppliers s 
+ON p.SupplierID = s.SupplierID 
+WHERE QuantityPerUnit LIKE '%bottle%';
+
+//EX1.4
+SELECT c.CategoryID, c.CategoryName, count(p.ProductName) AS 'Amount of product'
+from Categories c 
+INNER JOIN Products p
+on c.CategoryID = p.CategoryID
+GROUP BY c.CategoryID, c.CategoryName
+ORDER BY ('Amount of product') DESC;
+
+//EX1.5
+SELECT CONCAT(TitleOfCourtesy, ' ', FirstName, ' ', LastName) AS 'Name', City 
+FROM Employees 
+WHERE Country = 'UK';
+
+//EX1.6
+SELECT t.RegionID, r.RegionDescription, 
+FORMAT(SUM((od.UnitPrice*od.Quantity)*(1-od.discount)), '##,###') AS 'Sales Total'
+FROM Territories t 
+INNER JOIN EmployeeTerritories et ON t.TerritoryID = et.TerritoryID
+INNER JOIN Orders o ON et.EmployeeID = o.EmployeeID
+INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
+INNER JOIN Region r ON t.RegionID = r.RegionID
+GROUP BY t.RegionID, r.RegionDescription
+HAVING SUM((od.UnitPrice*od.Quantity)*(1-od.discount)) > 1000000
+ORDER BY 'Sales Total' DESC
+
+//EX1.7
+SELECT COUNT(Freight) AS 'Orders in UK or USA with Freight > 100'
+FROM Orders 
+where Freight > 100 
+AND (ShipCountry = 'UK' OR ShipCountry = 'USA');
+
+//EX1.8
+COULD NOT DO IT
+
+
+
+
+//EX.2
+CREATE TABLE HIGHESTMANUTDTRANSFERS
+(
+UniqueID INT IDENTITY(1,1) PRIMARY KEY,
+FirstName VARCHAR(20) NOT NULL,
+LastName VARCHAR(20) NOT NULL,
+Nationality VARCHAR(20) NOT NULL,
+PreviousClub VARCHAR(50) NOT NULL,
+SquadNumber INT NOT NULL,
+Position VARCHAR(10) Not NULL
+)
+
+INSERT INTO HIGHESTMANUTDTRANSFERS
+VALUES ('Paul', 'Pogba', 'France', 'Juventus', '6', '3')
+INSERT INTO HIGHESTMANUTDTRANSFERS
+VALUES ('Harry', 'Maguire', 'England', 'Leicester', '5', '2')
+INSERT INTO HIGHESTMANUTDTRANSFERS
+VALUES ('Romelu', 'Lukaku', 'Belgium', 'Everton', '9', '4')
+INSERT INTO HIGHESTMANUTDTRANSFERS
+VALUES ('Angel', 'Di Maria', 'Argentina', 'Real Madrid', '7', '3')
+
+CREATE TABLE POSITIONS
+PositionID INT IDENTITY 
+Position VARCHAR(10) Not NULL
+
+insert into POSITIONS
+VALUES ('GOALKEEPER','DEFENDER','MIDFIELDER', 'FORWARD');
