@@ -49,7 +49,10 @@ where Freight > 100
 AND (ShipCountry = 'UK' OR ShipCountry = 'USA');
 
 //EX1.8
-COULD NOT DO IT
+SELECT TOP 1 OrderID, ((SUM(UnitPrice*Quantity*Discount)) /(SUM(UnitPrice*Quantity))) AS 'Discount Applied' 
+FROM [Order Details] 
+GROUP BY OrderID
+ORDER BY ((SUM(UnitPrice*Quantity*Discount)) /(SUM(UnitPrice*Quantity))) DESC
 
 
 
